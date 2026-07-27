@@ -1,49 +1,46 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Report Found Item</title>
-</head>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
 <body>
 
-<h1>Report Found Item</h1>
+<div class="form-container">
 
-<form>
+    <h1>✅ Report Found Item</h1>
 
-    <label><b>Item Name</b></label><br>
-    <input type="text" name="item_name" required><br><br>
+    <form>
 
-    <label><b>Category</b></label><br>
-    <select name="category" required>
-        <option value="">Select Category</option>
-        <option>Phone</option>
-        <option>Laptop</option>
-        <option>Wallet</option>
-        <option>Keys</option>
-        <option>ID Card</option>
-        <option>Bag</option>
-        <option>Watch</option>
-        <option>Books</option>
-        <option>Other</option>
-    </select><br><br>
+        <label>Item Name</label>
+        <input type="text">
 
-    <label><b>Location Found</b></label><br>
-    <input type="text" name="location" required><br><br>
+        <label>Category</label>
+        <select>
+            <option>Select Category</option>
+            <option>Electronics</option>
+            <option>Bag</option>
+            <option>Books</option>
+            <option>ID Card</option>
+            <option>Keys</option>
+            <option>Other</option>
+        </select>
 
-    <label><b>Description</b></label><br>
-    <textarea rows="5" cols="50"></textarea><br><br>
+        <label>Location Found</label>
+        <input type="text">
 
-    <label><b>Attach Image (Optional)</b></label><br>
-    <input type="file"><br><br>
+        <label>Description</label>
+        <textarea rows="5"></textarea>
 
-    <label><b>Phone Number</b></label><br>
-    <input type="tel" required><br><br>
+        <label>Attach Image (Optional)</label>
+        <input type="file">
 
-    <label><b>Email Address</b></label><br>
-    <input type="email" required><br><br>
+        <label>Phone Number</label>
+        <input type="tel">
 
-    <button type="submit">Submit Report</button>
+        <label>Email Address</label>
+        <input type="email">
 
-</form>
+        <button type="submit">Submit Report</button>
+
+    </form>
+
+</div>
 
 </body>
-</html>

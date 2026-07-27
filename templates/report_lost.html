@@ -1,39 +1,46 @@
-<form>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 
-    <label><b>Item Name</b></label><br>
-    <input type="text" name="item_name" required><br><br>
+<body>
 
-    <label><b>Category</b></label><br>
-    <select name="category" required>
-        <option value="">Select Category</option>
-        <option>Phone</option>
-        <option>Laptop</option>
-        <option>Wallet</option>
-        <option>Keys</option>
-        <option>ID Card</option>
-        <option>Bag</option>
-        <option>Watch</option>
-        <option>Clothes</option>
-        <option>Books</option>
-        <option>Other</option>
-    </select><br><br>
+<div class="form-container">
 
-    <label><b>Location Lost</b></label><br>
-    <input type="text" name="location" required><br><br>
+    <h1>🚨 Report Lost Item</h1>
 
-    <label><b>Description of the Item</b></label><br>
-    <textarea name="description" rows="5" cols="50"
-    placeholder="Describe the item (color, brand, size, identifying marks...)"></textarea><br><br>
+    <form>
 
-    <label><b>Attach Image (Optional)</b></label><br>
-    <input type="file" name="image"><br><br>
+        <label>Item Name</label>
+        <input type="text">
 
-    <label><b>Phone Number</b></label><br>
-    <input type="tel" name="phone" placeholder="9876543210" required><br><br>
+        <label>Category</label>
+        <select>
+            <option>Select Category</option>
+            <option>Electronics</option>
+            <option>Bag</option>
+            <option>Books</option>
+            <option>ID Card</option>
+            <option>Keys</option>
+            <option>Other</option>
+        </select>
 
-    <label><b>Email Address</b></label><br>
-    <input type="email" name="email" placeholder="example@gmail.com" required><br><br>
+        <label>Location Lost</label>
+        <input type="text">
 
-    <button type="submit">Submit Report</button>
+        <label>Description</label>
+        <textarea rows="5"></textarea>
 
-</form>
+        <label>Attach Image (Optional)</label>
+        <input type="file">
+
+        <label>Phone Number</label>
+        <input type="tel">
+
+        <label>Email Address</label>
+        <input type="email">
+
+        <button type="submit">Submit Report</button>
+
+    </form>
+
+</div>
+
+</body>

@@ -1,60 +1,37 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Search Items</title>
-</head>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 
 <body>
 
-<h1>Search Lost & Found Items</h1>
+<div class="form-container">
 
-<input type="text" placeholder="Search item...">
+    <h1>🔍 Search Items</h1>
 
-<br><br>
+    <h2>Results</h2>
 
-<select>
-    <option>All Categories</option>
-    <option>Electronics</option>
-    <option>Bags</option>
-    <option>Books</option>
-    <option>ID Cards</option>
-    <option>Wallets</option>
-</select>
+    {% for report in reports %}
 
-<select>
-    <option>All Status</option>
-    <option>Lost</option>
-    <option>Found</option>
-</select>
+    <div class="card">
 
-<hr>
+        <h3>{{ report.item_name }}</h3>
 
-<h2>Results</h2>
+        <p><strong>Status:</strong> {{ report.status }}</p>
 
-<div>
-    <h3>🎒 Black Backpack</h3>
-    <p>Status: Found</p>
-    <p>Location: Cafeteria</p>
-    <button>View Details</button>
-</div>
+        <p><strong>Category:</strong> {{ report.category }}</p>
 
-<hr>
+        <p><strong>Location:</strong> {{ report.location }}</p>
 
-<div>
-    <h3>📱 iPhone 14</h3>
-    <p>Status: Lost</p>
-    <p>Location: Library</p>
-    <button>View Details</button>
-</div>
+        <p><strong>Description:</strong> {{ report.description }}</p>
 
-<hr>
+        <p><strong>Phone:</strong> {{ report.phone }}</p>
 
-<div>
-    <h3>⌚ Smart Watch</h3>
-    <p>Status: Lost</p>
-    <p>Location: Basketball Court</p>
-    <button>View Details</button>
+        <p><strong>Email:</strong> {{ report.email }}</p>
+
+    </div>
+
+    <br>
+
+    {% endfor %}
+
 </div>
 
 </body>
-</html>

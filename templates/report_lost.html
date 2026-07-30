@@ -5,14 +5,19 @@
 <div class="form-container">
 
     <h1>🚨 Report Lost Item</h1>
+    {% if success %}
+<p style="color:green; font-weight:bold;">
+    ✅ Report submitted successfully!
+</p>
+{% endif %}
 
-    <form>
+    <form method="POST">
 
         <label>Item Name</label>
-        <input type="text">
+        <input type="text" name="item_name" required>
 
         <label>Category</label>
-        <select>
+        <select name="category">
             <option>Select Category</option>
             <option>Electronics</option>
             <option>Bag</option>
@@ -23,23 +28,24 @@
         </select>
 
         <label>Location Lost</label>
-        <input type="text">
+        <input type="text" name="location" required>
 
         <label>Description</label>
-        <textarea rows="5"></textarea>
-
-        <label>Attach Image (Optional)</label>
-        <input type="file">
+        <textarea rows="5" name="description"></textarea>
 
         <label>Phone Number</label>
-        <input type="tel">
+        <input type="tel" name="phone">
 
         <label>Email Address</label>
-        <input type="email">
+        <input type="email" name="email">
 
         <button type="submit">Submit Report</button>
 
     </form>
+
+    <br>
+
+    <a href="/" class="home-btn">🏠 Back to Home</a>
 
 </div>
 

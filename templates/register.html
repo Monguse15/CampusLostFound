@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>Register</title>
 
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
@@ -13,9 +13,15 @@
 
 <div class="form-container">
 
-    <h1>🔐 Login</h1>
+    <h1>📝 Register</h1>
 
-    <form action="{{ url_for('login') }}" method="POST">
+    <form action="{{ url_for('register') }}" method="POST">
+
+        <label>Full Name</label>
+        <input type="text"
+               name="fullname"
+               placeholder="Enter your full name"
+               required>
 
         <label>Email Address</label>
         <input type="email"
@@ -26,12 +32,18 @@
         <label>Password</label>
         <input type="password"
                name="password"
-               placeholder="Enter password"
+               placeholder="Create password"
                required>
 
-        <button type="submit">Login</button>
+        <button type="submit">Create Account</button>
 
     </form>
+
+    {% if success %}
+        <p style="text-align:center; color:#00ff88; margin-top:15px;">
+            Registration Successful!
+        </p>
+    {% endif %}
 
     {% if error %}
         <p style="text-align:center; color:#ff4d4d; margin-top:15px;">
@@ -40,8 +52,8 @@
     {% endif %}
 
     <p style="text-align:center; margin-top:20px;">
-        Don't have an account?
-        <a href="{{ url_for('register') }}">Register</a>
+        Already have an account?
+        <a href="{{ url_for('login') }}">Login</a>
     </p>
 
 </div>

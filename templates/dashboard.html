@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<div class="form-container">
+
+    <h1>👋 Welcome, {{ session["user_name"] }}</h1>
+
+    <h2>📦 My Lost Reports</h2>
+
+    {% if lost_items %}
+        <ul>
+        {% for item in lost_items %}
+            <li>
+                <strong>{{ item.item_name }}</strong><br>
+                {{ item.location }}
+            </li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No lost reports submitted yet.</p>
+    {% endif %}
+
+    <hr>
+
+    <h2>🎒 My Found Reports</h2>
+
+    {% if found_items %}
+        <ul>
+        {% for item in found_items %}
+            <li>
+                <strong>{{ item.item_name }}</strong><br>
+                {{ item.location }}
+            </li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No found reports submitted yet.</p>
+    {% endif %}
+
+    <br>
+
+    <a href="{{ url_for('home') }}" class="home-btn">🏠 Home</a>
+
+</div>
+
+</body>
+</html>

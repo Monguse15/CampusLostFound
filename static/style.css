@@ -1,292 +1,510 @@
 /* Google Font */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600;700&display=swap');
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-body{
-    font-family:'Poppins',sans-serif;
-    background:#0B1F3A;      /* Midnight Blue */
-    color:white;
+body {
+    font-family: 'Poppins', sans-serif;
+    background: #0B1F3A;
+    color: white;
 }
 
-/* ---------------- NAVBAR ---------------- */
 
-.navbar{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
+/* ================= NAVBAR ================= */
 
-    padding:20px 60px;
-    background:#071528;
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 20px 60px;
+
+    background: #071528;
 }
 
-.logo{
-    font-size:32px;
-    font-weight:700;
+.logo {
+    font-size: 32px;
+    font-weight: 700;
 }
 
-.nav-links{
-    list-style:none;
-    display:flex;
-    gap:25px;
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 25px;
 }
 
-.nav-links a{
-    text-decoration:none;
-    color:white;
-    font-size:18px;
-    font-weight:600;
+.nav-links a {
+    text-decoration: none;
+    color: white;
 
-    padding:12px 22px;
-    border-radius:12px;
+    font-size: 18px;
+    font-weight: 600;
 
-    transition:.3s;
+    padding: 12px 22px;
+    border-radius: 12px;
+
+    transition: 0.3s;
 }
 
-.nav-links a:hover{
-    background:#4F46E5;
+.nav-links a:hover {
+    background: #4F46E5;
 }
 
-/* ---------------- HERO ---------------- */
 
-.hero{
-    text-align:center;
-    margin-top:90px;
-    padding:20px;
+/* ================= HERO ================= */
+
+.hero {
+    text-align: center;
+
+    margin-top: 90px;
+    padding: 20px;
 }
 
-.hero h1{
-    font-size:65px;
-    margin-bottom:15px;
+.hero h1 {
+    font-size: 65px;
+    margin-bottom: 15px;
 }
 
-.hero p{
-    font-size:22px;
-    color:#d4d4d4;
-    width:70%;
-    margin:auto;
-    margin-bottom:40px;
+.hero p {
+    font-size: 22px;
+    color: #d4d4d4;
+
+    width: 70%;
+    margin: auto;
+    margin-bottom: 40px;
 }
 
-/* ---------------- BUTTONS ---------------- */
 
-.buttons button{
+/* ================= BUTTONS ================= */
 
-    padding:18px 40px;
+.buttons button {
+    padding: 18px 40px;
 
-    font-size:20px;
+    font-size: 20px;
 
-    border:none;
+    border: none;
+    border-radius: 15px;
 
-    border-radius:15px;
+    cursor: pointer;
 
-    cursor:pointer;
+    margin: 15px;
 
-    margin:15px;
+    font-weight: bold;
 
-    font-weight:bold;
-
-    transition:.3s;
+    transition: 0.3s;
 }
 
-.lost-btn{
-    background:#ff4d4d;
-    color:white;
+.lost-btn {
+    background: #ff4d4d;
+    color: white;
 }
 
-.found-btn{
-    background:#00c896;
-    color:white;
+.found-btn {
+    background: #00c896;
+    color: white;
 }
 
-.buttons button:hover{
-    transform:scale(1.08);
+.buttons button:hover {
+    transform: scale(1.08);
 }
 
-/* ---------------- POSTS ---------------- */
 
-.posts{
-    margin:90px auto;
-    width:90%;
+/* ================= POSTS ================= */
+
+.posts {
+    margin: 90px auto;
+    width: 90%;
 }
 
-.posts h2{
-    text-align:center;
-    font-size:42px;
-    margin-bottom:40px;
+.posts h2 {
+    text-align: center;
+
+    font-size: 42px;
+
+    margin-bottom: 40px;
 }
 
-.cards{
+.cards {
+    display: flex;
 
-    display:flex;
+    justify-content: center;
 
-    justify-content:center;
+    gap: 30px;
 
-    gap:30px;
-
-    flex-wrap:wrap;
-
+    flex-wrap: wrap;
 }
 
-.card{
+.card {
+    background: #13294B;
 
-    background:#13294B;
+    width: 280px;
 
-    width:280px;
+    padding: 30px;
 
-    padding:30px;
+    border-radius: 18px;
 
-    border-radius:18px;
+    text-align: center;
 
-    text-align:center;
-
-    transition:.3s;
+    transition: 0.3s;
 }
 
-.card:hover{
+.card:hover {
+    transform: translateY(-10px);
 
-    transform:translateY(-10px);
-
-    background:#1D3D6B;
+    background: #1D3D6B;
 }
 
-.card h3{
+.card h3 {
+    margin-bottom: 15px;
 
-    margin-bottom:15px;
-
-    font-size:26px;
+    font-size: 26px;
 }
 
-.card p{
+.card p {
+    color: #dddddd;
 
-    color:#dddddd;
-
-    font-size:18px;
+    font-size: 18px;
 }
+
 
 /* ================= FORM PAGE ================= */
 
-.form-container{
+.form-container {
+    width: 700px;
 
-    width:700px;
+    max-width: 92%;
 
-    margin:70px auto;
+    margin: 70px auto;
 
-    padding:40px;
+    padding: 40px;
 
-    background:rgba(255,255,255,0.08);
+    background: rgba(255, 255, 255, 0.08);
 
-    border-radius:25px;
+    border-radius: 25px;
 
-    backdrop-filter:blur(18px);
+    backdrop-filter: blur(18px);
 
-    box-shadow:0 10px 35px rgba(0,0,0,.4);
-
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.4);
 }
 
-.form-container h1{
+.form-container h1 {
+    text-align: center;
 
-    text-align:center;
+    margin-bottom: 35px;
 
-    margin-bottom:35px;
-
-    font-size:42px;
+    font-size: 42px;
 }
 
-form{
 
-    display:flex;
+/* ================= FORMS ================= */
 
-    flex-direction:column;
+form {
+    display: flex;
+
+    flex-direction: column;
 }
 
-label{
+label {
+    margin-top: 18px;
 
-    margin-top:18px;
+    margin-bottom: 8px;
 
-    margin-bottom:8px;
+    font-size: 20px;
 
-    font-size:20px;
-
-    font-weight:600;
+    font-weight: 600;
 }
 
 input,
 textarea,
-select{
+select {
+    padding: 16px;
 
-    padding:16px;
+    border: none;
 
-    border:none;
+    border-radius: 12px;
 
-    border-radius:12px;
+    font-size: 18px;
 
-    font-size:18px;
+    background: #f5f5f5;
 
-    background:#f5f5f5;
-
-    outline:none;
+    outline: none;
 }
 
-textarea{
-
-    resize:none;
+textarea {
+    resize: none;
 }
 
-button{
 
-    margin-top:35px;
+/* ================= SUBMIT BUTTON ================= */
 
-    padding:18px;
+button {
+    margin-top: 35px;
 
-    border:none;
+    padding: 18px;
 
-    border-radius:15px;
+    border: none;
 
-    background:#5b5df0;
+    border-radius: 15px;
 
-    color:white;
+    background: #5b5df0;
 
-    font-size:20px;
-
-    font-weight:bold;
-
-    cursor:pointer;
-
-    transition:.3s;
-}
-
-button:hover{
-
-    background:#4044d4;
-
-    transform:scale(1.03);
-}
-.home-btn {
-    display: inline-block;
-    margin-top: 15px;
-    padding: 10px 20px;
-    background: #4CAF50;
     color: white;
+
+    font-size: 20px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition: 0.3s;
+}
+
+button:hover {
+    background: #4044d4;
+
+    transform: scale(1.03);
+}
+
+
+/* =========================================================
+   DASHBOARD REPORT CARDS
+   ========================================================= */
+
+.report-card {
+
+    width: 100%;
+
+    padding: 28px 32px;
+
+    margin: 20px 0;
+
+    background: #132f55;
+
+    border-radius: 20px;
+
+    border: 1px solid rgba(255, 255, 255, 0.08);
+
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+
+    text-align: left;
+
+    transition: 0.3s;
+}
+
+
+.report-card:hover {
+
+    transform: translateY(-3px);
+
+    background: #173963;
+
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+}
+
+
+/* Report title */
+
+.report-card h3 {
+
+    font-size: 27px;
+
+    margin-bottom: 18px;
+
+    color: white;
+}
+
+
+/* Report information */
+
+.report-card p {
+
+    font-size: 17px;
+
+    line-height: 1.7;
+
+    color: #e5e7eb;
+
+    margin: 4px 0;
+}
+
+
+.report-card strong {
+
+    color: white;
+}
+
+
+/* ================= EDIT / DELETE BUTTONS ================= */
+
+.report-card .home-btn {
+
+    display: inline-block;
+
+    margin-top: 15px;
+    margin-right: 10px;
+
+    padding: 10px 18px;
+
+    border-radius: 10px;
+
+    color: white;
+
     text-decoration: none;
-    border-radius: 5px;
+
+    font-size: 15px;
+
+    font-weight: 600;
+
+    transition: 0.3s;
+}
+
+
+/* Edit button */
+
+.report-card .home-btn[href*="edit"] {
+
+    background: #4F46E5;
+}
+
+.report-card .home-btn[href*="edit"]:hover {
+
+    background: #6366F1;
+
+    transform: translateY(-2px);
+}
+
+
+/* Delete button */
+
+.report-card .home-btn[href*="delete"] {
+
+    background: #dc3545;
+}
+
+.report-card .home-btn[href*="delete"]:hover {
+
+    background: #ef4444;
+
+    transform: translateY(-2px);
+}
+
+
+/* ================= HOME BUTTON ================= */
+
+.home-btn {
+
+    display: inline-block;
+
+    margin-top: 15px;
+
+    padding: 10px 20px;
+
+    background: #4CAF50;
+
+    color: white;
+
+    text-decoration: none;
+
+    border-radius: 8px;
+
     text-align: center;
+
+    transition: 0.3s;
 }
 
 .home-btn:hover {
+
     opacity: 0.9;
+
+    transform: translateY(-2px);
 }
-.form-container a{
-    color: #FFD700;   /* Gold/Yellow */
+
+
+/* ================= LINKS ================= */
+
+.form-container a {
+
+    color: #FFD700;
+
     text-decoration: none;
+
     font-weight: 600;
 }
 
-.form-container a:hover{
-    color: #FFC107;   /* Slightly darker yellow */
+.form-container a:hover {
+
+    color: #FFC107;
+
     text-decoration: underline;
+}
+
+
+/* ================= DASHBOARD HEADINGS ================= */
+
+.form-container h2 {
+
+    margin-top: 25px;
+
+    margin-bottom: 15px;
+
+    font-size: 28px;
+}
+
+
+.form-container hr {
+
+    margin: 35px 0;
+
+    border: none;
+
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+
+/* ================= MOBILE ================= */
+
+@media (max-width: 768px) {
+
+    .form-container {
+
+        width: 92%;
+
+        padding: 25px;
+
+        margin: 35px auto;
+    }
+
+    .form-container h1 {
+
+        font-size: 32px;
+    }
+
+    .report-card {
+
+        padding: 22px;
+    }
+
+    .report-card h3 {
+
+        font-size: 23px;
+    }
+
+    .report-card p {
+
+        font-size: 15px;
+    }
+
+    .navbar {
+
+        padding: 15px 20px;
+    }
+
+    .hero h1 {
+
+        font-size: 42px;
+    }
 }

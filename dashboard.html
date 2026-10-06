@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Dashboard</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<div class="form-container">
+
+    <!-- ================= WELCOME ================= -->
+
+    <h1>👋 Welcome, {{ session["user_name"] }}</h1>
+
+
+    <!-- ================= LOST REPORTS ================= -->
+
+    <h2>📦 My Lost Reports</h2>
+
+    {% if lost_items %}
+
+        {% for item in lost_items %}
+
+        <div class="report-card">
+
+            <h3>📦 {{ item.item_name }}</h3>
+
+            <p>
+                <strong>Status:</strong>
+                Lost
+            </p>
+
+            <p>
+                <strong>Category:</strong>
+                {{ item.category }}
+            </p>
+
+            <p>
+                <strong>Location:</strong>
+                {{ item.location }}
+            </p>
+
+            <p>
+                <strong>Description:</strong>
+                {{ item.description }}
+            </p>
+
+            {% if item.phone %}
+            <p>
+                <strong>Phone:</strong>
+                {{ item.phone }}
+            </p>
+            {% endif %}
+
+            {% if item.email %}
+            <p>
+                <strong>Email:</strong>
+                {{ item.email }}
+            </p>
+            {% endif %}
+
+
+            <!-- EDIT AND DELETE BUTTONS -->
+
+            <div style="margin-top: 15px;">
+
+                <a href="{{ url_for('edit_lost', id=item.id) }}"
+                   class="home-btn">
+                    ✏️ Edit
+                </a>
+
+                <a href="{{ url_for('delete_lost', id=item.id) }}"
+                   class="home-btn"
+                   onclick="return confirm('Are you sure you want to delete this lost report?');">
+                    🗑️ Delete
+                </a>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    {% else %}
+
+        <p>No lost reports submitted yet.</p>
+
+    {% endif %}
+
+
+    <!-- ================= SEPARATOR ================= -->
+
+    <hr>
+
+
+    <!-- ================= FOUND REPORTS ================= -->
+
+    <h2>🎒 My Found Reports</h2>
+
+    {% if found_items %}
+
+        {% for item in found_items %}
+
+        <div class="report-card">
+
+            <h3>🎒 {{ item.item_name }}</h3>
+
+            <p>
+                <strong>Status:</strong>
+                Found
+            </p>
+
+            <p>
+                <strong>Category:</strong>
+                {{ item.category }}
+            </p>
+
+            <p>
+                <strong>Location:</strong>
+                {{ item.location }}
+            </p>
+
+            <p>
+                <strong>Description:</strong>
+                {{ item.description }}
+            </p>
+
+            {% if item.phone %}
+            <p>
+                <strong>Phone:</strong>
+                {{ item.phone }}
+            </p>
+            {% endif %}
+
+            {% if item.email %}
+            <p>
+                <strong>Email:</strong>
+                {{ item.email }}
+            </p>
+            {% endif %}
+
+
+            <!-- EDIT AND DELETE BUTTONS -->
+
+            <div style="margin-top: 15px;">
+
+                <a href="{{ url_for('edit_found', id=item.id) }}"
+                   class="home-btn">
+                    ✏️ Edit
+                </a>
+
+                <a href="{{ url_for('delete_found', id=item.id) }}"
+                   class="home-btn"
+                   onclick="return confirm('Are you sure you want to delete this found report?');">
+                    🗑️ Delete
+                </a>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    {% else %}
+
+        <p>No found reports submitted yet.</p>
+
+    {% endif %}
+
+
+    <!-- ================= HOME BUTTON ================= -->
+
+    <br>
+
+    <a href="{{ url_for('home') }}"
+       class="home-btn">
+        🏠 Home
+    </a>
+
+</div>
+
+</body>
+
+</html>

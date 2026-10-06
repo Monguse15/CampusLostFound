@@ -1,0 +1,51 @@
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+<body>
+
+<div class="form-container">
+
+    <h1>✅ Report Found Item</h1>
+    {% if success %}
+<p style="color:green; font-weight:bold;">
+    ✅ Report submitted successfully!
+</p>
+{% endif %}
+
+    <form action="{{ url_for('report_found') }}" method="POST">
+
+        <label>Item Name</label>
+        <input type="text" name="item_name" required>
+
+        <label>Category</label>
+        <select name="category">
+             <option value="">Select Category</option>
+            <option value="Electronics">Electronics</option>
+    <option value="Bag">Bag</option>
+    <option value="Books">Books</option>
+    <option value="ID Card">ID Card</option>
+    <option value="Keys">Keys</option>
+    <option value="Other">Other</option>
+</select>
+        <label>Location Found</label>
+        <input type="text" name="location" required>
+
+        <label>Description</label>
+        <textarea rows="5" name="description"></textarea>
+
+        <label>Phone Number</label>
+        <input type="tel" name="phone">
+
+        <label>Email Address</label>
+        <input type="email" name="email">
+
+        <button type="submit">Submit Report</button>
+
+    </form>
+
+    <br>
+
+    <a href="/" class="home-btn">🏠 Back to Home</a>
+
+</div>
+
+</body>

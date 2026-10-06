@@ -1,0 +1,663 @@
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>CampusConnect</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+    <style>
+
+        body {
+            margin: 0;
+            background: #0b2342;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+
+
+        /* ============================= */
+        /* NAVBAR */
+        /* ============================= */
+
+        .navbar {
+            height: 54px;
+            background: #06172d;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 42px;
+
+            box-sizing: border-box;
+        }
+
+        .logo {
+            margin: 0;
+            font-size: 26px;
+            color: white;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 42px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .nav-links a:hover {
+            color: #00c9a7;
+        }
+
+
+        /* USERNAME */
+
+        .welcome-user {
+            color: #00c9a7 !important;
+            font-weight: 700 !important;
+        }
+
+
+        /* ============================= */
+        /* HERO */
+        /* ============================= */
+
+        .hero {
+            text-align: center;
+            padding: 95px 20px 65px;
+        }
+
+        .hero-content {
+            max-width: 1100px;
+            margin: auto;
+        }
+
+        .hero h1 {
+            font-size: 54px;
+            margin: 0 0 25px;
+            font-weight: 800;
+        }
+
+        .hero p {
+            font-size: 20px;
+            line-height: 1.5;
+
+            max-width: 1050px;
+
+            margin: 0 auto 55px;
+        }
+
+
+        /* ============================= */
+        /* BUTTONS */
+        /* ============================= */
+
+        .hero-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 34px;
+        }
+
+        .hero-buttons a {
+            text-decoration: none;
+            color: white;
+
+            font-weight: 700;
+            font-size: 18px;
+
+            padding: 18px 45px;
+
+            border-radius: 15px;
+
+            display: inline-block;
+
+            transition: 0.2s;
+        }
+
+        .hero-buttons a:hover {
+            transform: translateY(-3px);
+            opacity: 0.9;
+        }
+
+        .lost-btn {
+            background: #ff4f52;
+        }
+
+        .found-btn {
+            background: #00c9a7;
+        }
+
+
+        /* ============================= */
+        /* LATEST REPORTS */
+        /* ============================= */
+
+        .latest-reports {
+            padding: 0 30px 70px;
+            text-align: center;
+        }
+
+        .latest-reports > h2 {
+            font-size: 40px;
+            margin: 0 0 45px;
+            font-weight: 800;
+        }
+
+
+        /* ============================= */
+        /* REPORT CONTAINER */
+        /* ============================= */
+
+        .reports-container {
+            max-width: 900px;
+
+            margin: auto;
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 30px;
+        }
+
+
+        /* ============================= */
+        /* REPORT CARD */
+        /* ============================= */
+
+        .report-card {
+            background: #17345d;
+
+            min-height: 180px;
+
+            border-radius: 18px;
+
+            padding: 25px 20px;
+
+            box-sizing: border-box;
+
+            display: flex;
+
+            flex-direction: column;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border: 1px solid rgba(255,255,255,0.08);
+
+            transition: 0.2s;
+        }
+
+        .report-card:hover {
+            transform: translateY(-5px);
+            background: #1b3d6b;
+        }
+
+
+        /* ============================= */
+        /* ITEM ICON */
+        /* ============================= */
+
+        .item-icon {
+            font-size: 38px;
+
+            line-height: 1;
+
+            margin-bottom: 12px;
+
+            display: block;
+        }
+
+
+        /* ============================= */
+        /* STATUS */
+        /* ============================= */
+
+        .status {
+            font-size: 13px;
+
+            font-weight: 700;
+
+            padding: 5px 13px;
+
+            border-radius: 20px;
+
+            margin-bottom: 12px;
+        }
+
+        .status.lost {
+            background: #ff4f52;
+        }
+
+        .status.found {
+            background: #00c9a7;
+        }
+
+
+        /* ============================= */
+        /* ITEM NAME */
+        /* ============================= */
+
+        .report-card h3 {
+            color: white;
+
+            font-size: 23px;
+
+            font-weight: 800;
+
+            margin: 0 0 15px;
+
+            word-break: break-word;
+        }
+
+
+        /* ============================= */
+        /* LOCATION */
+        /* ============================= */
+
+        .report-card p {
+            color: #eeeeee;
+
+            font-size: 16px;
+
+            margin: 0;
+        }
+
+
+        /* ============================= */
+        /* NO REPORTS */
+        /* ============================= */
+
+        .no-reports {
+            grid-column: 1 / -1;
+
+            background: #17345d;
+
+            padding: 40px;
+
+            border-radius: 18px;
+        }
+
+        .no-reports h3 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+
+        /* ============================= */
+        /* FOOTER */
+        /* ============================= */
+
+        footer {
+            text-align: center;
+
+            padding: 25px;
+
+            color: #ddd;
+
+            font-size: 14px;
+        }
+
+
+        /* ============================= */
+        /* MOBILE */
+        /* ============================= */
+
+        @media (max-width: 900px) {
+
+            .reports-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .nav-links {
+                gap: 15px;
+            }
+
+        }
+
+
+        @media (max-width: 600px) {
+
+            .navbar {
+                padding: 0 15px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 38px;
+            }
+
+            .hero p {
+                font-size: 17px;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .reports-container {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- ============================= -->
+    <!-- NAVIGATION BAR -->
+    <!-- ============================= -->
+
+    <nav class="navbar">
+
+        <h2 class="logo">
+            CampusConnect
+        </h2>
+
+
+        <div class="nav-links">
+
+            <a href="{{ url_for('home') }}">
+                Home
+            </a>
+
+            <a href="{{ url_for('search') }}">
+                Search
+            </a>
+
+
+            {% if session.get("user_id") %}
+
+                <a href="{{ url_for('dashboard') }}">
+                    Dashboard
+                </a>
+
+                <a href="{{ url_for('report_lost') }}">
+                    Report Lost
+                </a>
+
+                <a href="{{ url_for('report_found') }}">
+                    Report Found
+                </a>
+
+                <!-- USERNAME -->
+                <a href="{{ url_for('dashboard') }}"
+                   class="welcome-user">
+
+                    👋 {{ session.get("user_name") }}
+
+                </a>
+
+                <a href="{{ url_for('logout') }}">
+                    Logout
+                </a>
+
+            {% else %}
+
+                <a href="{{ url_for('login') }}">
+                    Login
+                </a>
+
+                <a href="{{ url_for('register') }}">
+                    Register
+                </a>
+
+            {% endif %}
+
+        </div>
+
+    </nav>
+
+
+    <!-- ============================= -->
+    <!-- HERO -->
+    <!-- ============================= -->
+
+    <section class="hero">
+
+        <div class="hero-content">
+
+            <h1>
+                We’ll Help You Find It.
+            </h1>
+
+            <p>
+                Lost something on campus? Report it, search for it,
+                and reconnect with your belongings in just a few clicks.
+            </p>
+
+
+            <div class="hero-buttons">
+
+                <a href="{{ url_for('report_lost') }}"
+                   class="lost-btn">
+
+                    🚨 Report Lost
+
+                </a>
+
+
+                <a href="{{ url_for('report_found') }}"
+                   class="found-btn">
+
+                    ☑️ Report Found
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ============================= -->
+    <!-- LATEST REPORTS -->
+    <!-- ============================= -->
+
+    <section class="latest-reports">
+
+        <h2>
+            🔥 Latest Reports
+        </h2>
+
+
+        <div class="reports-container">
+
+
+            {% if reports %}
+
+
+                {% for report in reports %}
+
+
+                <div class="report-card">
+
+
+                    <!-- STATUS -->
+
+                    <span class="status
+                        {% if report.status == 'Lost' %}
+                            lost
+                        {% else %}
+                            found
+                        {% endif %}
+                    ">
+
+                        {% if report.status == 'Lost' %}
+
+                            🔴 Lost
+
+                        {% else %}
+
+                            🟢 Found
+
+                        {% endif %}
+
+                    </span>
+
+
+                    <!-- ITEM ICON -->
+
+                    <div class="item-icon">
+
+                        {% set item = report.item_name.lower() %}
+
+
+                        {% if 'backpack' in item
+                           or 'bag' in item %}
+
+                            🎒
+
+                        {% elif 'watch' in item %}
+
+                            ⌚
+
+                        {% elif 'iphone' in item
+                           or 'phone' in item
+                           or 'mobile' in item %}
+
+                            📱
+
+                        {% elif 'bottle' in item
+                           or 'water' in item %}
+
+                            🍼
+
+                        {% elif 'wallet' in item %}
+
+                            👛
+
+                        {% elif 'book' in item
+                           or 'notebook' in item %}
+
+                            📚
+
+                        {% elif 'key' in item %}
+
+                            🔑
+
+                        {% elif 'card' in item
+                           or 'id' in item %}
+
+                            💳
+
+                        {% elif 'laptop' in item
+                           or 'computer' in item %}
+
+                            💻
+
+                        {% elif 'headphone' in item
+                           or 'earphone' in item %}
+
+                            🎧
+
+                        {% elif 'umbrella' in item %}
+
+                            ☂️
+
+                        {% elif 'shoe' in item
+                           or 'shoes' in item %}
+
+                            👟
+
+                        {% elif 'glasses' in item
+                           or 'spectacles' in item %}
+
+                            👓
+
+                        {% else %}
+
+                            📦
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <!-- ITEM NAME -->
+
+                    <h3>
+                        {{ report.item_name }}
+                    </h3>
+
+
+                    <!-- LOCATION -->
+
+                    <p>
+                        📍 {{ report.location }}
+                    </p>
+
+
+                </div>
+
+
+                {% endfor %}
+
+
+            {% else %}
+
+
+                <div class="no-reports">
+
+                    <h3>
+                        No reports yet
+                    </h3>
+
+                    <p>
+                        Be the first to report a lost or found item!
+                    </p>
+
+                </div>
+
+
+            {% endif %}
+
+
+        </div>
+
+    </section>
+
+
+    <!-- ============================= -->
+    <!-- FOOTER -->
+    <!-- ============================= -->
+
+    <footer>
+
+        <p>
+            © 2026 CampusConnect
+        </p>
+
+    </footer>
+
+
+</body>
+
+</html>

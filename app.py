@@ -1,3 +1,4 @@
+import os
 from flask import Flask, render_template, request, redirect, url_for, session
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -5,8 +6,10 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
 
-app.secret_key = "campus_lost_found_secret_key"
-
+app.secret_key = os.environ.get(
+    "SECRET_KEY",
+    "dev-only-change-this-secret-key"
+)
 
 # ============================================================
 # DATABASE CONFIGURATION
@@ -25,9 +28,11 @@ db = SQLAlchemy(app)
 class LostItem(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
-
-    user_id = db.Column(db.Integer, nullable=False)
-
+    user_id = db.Column(
+    db.Integer,
+    db.ForeignKey("user.id"),
+    nullable=False
+)
     item_name = db.Column(db.String(100), nullable=False)
 
     category = db.Column(db.String(50), nullable=False)
@@ -45,7 +50,11 @@ class FoundItem(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
 
-    user_id = db.Column(db.Integer, nullable=False)
+    user_id = db.Column(
+    db.Integer,
+    db.ForeignKey("user.id"),
+    nullable=False
+)
 
     item_name = db.Column(db.String(100), nullable=False)
 
@@ -423,10 +432,7 @@ def search():
 
                     "description": item.description,
 
-                    "phone": item.phone,
-
-                    "email": item.email
-
+                    
                 })
 
 
@@ -461,10 +467,7 @@ def search():
 
                     "description": item.description,
 
-                    "phone": item.phone,
-
-                    "email": item.email
-
+                   
                 })
 
 
@@ -623,28 +626,20 @@ def edit_found(id):
 # DELETE LOST ITEM
 # ============================================================
 
-@app.route("/delete-lost/<int:id>")
+@app.route("/delete-lost/<int:id>", methods=["POST"])
 def delete_lost(id):
 
     if "user_id" not in session:
-
         return redirect(url_for("login"))
-
 
     item = LostItem.query.get_or_404(id)
 
-
-    # Make sure user owns this report
-
+    # Make sure the logged-in user owns this report
     if item.user_id != session["user_id"]:
-
         return "Unauthorized", 403
 
-
     db.session.delete(item)
-
     db.session.commit()
-
 
     return redirect(url_for("dashboard"))
 
@@ -653,30 +648,23 @@ def delete_lost(id):
 # DELETE FOUND ITEM
 # ============================================================
 
-@app.route("/delete-found/<int:id>")
+@app.route("/delete-found/<int:id>", methods=["POST"])
 def delete_found(id):
 
     if "user_id" not in session:
-
         return redirect(url_for("login"))
-
 
     item = FoundItem.query.get_or_404(id)
 
-
-    # Make sure user owns this report
-
+    # Make sure the logged-in user owns this report
     if item.user_id != session["user_id"]:
-
         return "Unauthorized", 403
 
-
     db.session.delete(item)
-
     db.session.commit()
 
-
     return redirect(url_for("dashboard"))
+
 
 
 # ============================================================

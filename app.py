@@ -285,48 +285,50 @@ def dashboard():
 # REPORT LOST ITEM
 # ============================================================
 
+
 @app.route("/report-lost", methods=["GET", "POST"])
 def report_lost():
-
     if "user_id" not in session:
-
         return redirect(url_for("login"))
 
-
     if request.method == "POST":
+        # Get and clean form data
+        item_name = request.form.get("item_name", "").strip()
+        category = request.form.get("category", "").strip()
+        location = request.form.get("location", "").strip()
+        description = request.form.get("description", "").strip()
+        phone = request.form.get("phone", "").strip()
+        email = request.form.get("email", "").strip()
 
+        # Validate item name
+        if not item_name:
+            return render_template(
+                "report_lost.html",
+                error="Item name is required. Please enter an item name."
+            ), 400
+
+        # Validate phone number
+        if not phone.isascii() or not phone.isdigit() or len(phone) != 10:
+            return render_template(
+                "report_lost.html",
+                error="Please enter a valid 10-digit phone number."
+            ), 400
+
+        # Create the lost-item report only after validation
         new_report = LostItem(
-
             user_id=session["user_id"],
-
-            item_name=request.form.get("item_name", "").strip(),
-
-            category=request.form.get("category", "").strip(),
-
-            location=request.form.get("location", "").strip(),
-
-            description=request.form.get("description", "").strip(),
-
-            phone=request.form.get("phone", "").strip(),
-
-            email=request.form.get("email", "").strip()
-
+            item_name=item_name,
+            category=category,
+            location=location,
+            description=description,
+            phone=phone,
+            email=email
         )
-
 
         db.session.add(new_report)
-
         db.session.commit()
 
-
-        return render_template(
-
-            "report_lost.html",
-
-            success=True
-
-        )
-
+        return render_template("report_lost.html", success=True)
 
     return render_template("report_lost.html")
 
@@ -335,48 +337,51 @@ def report_lost():
 # REPORT FOUND ITEM
 # ============================================================
 
+
+
 @app.route("/report-found", methods=["GET", "POST"])
 def report_found():
-
     if "user_id" not in session:
-
         return redirect(url_for("login"))
 
-
     if request.method == "POST":
+        # Get and clean form data
+        item_name = request.form.get("item_name", "").strip()
+        category = request.form.get("category", "").strip()
+        location = request.form.get("location", "").strip()
+        description = request.form.get("description", "").strip()
+        phone = request.form.get("phone", "").strip()
+        email = request.form.get("email", "").strip()
 
+        # Validate item name
+        if not item_name:
+            return render_template(
+                "report_found.html",
+                error="Item name is required. Please enter an item name."
+            ), 400
+
+        # Validate phone number
+        if not phone.isascii() or not phone.isdigit() or len(phone) != 10:
+            return render_template(
+                "report_found.html",
+                error="Please enter a valid 10-digit phone number."
+            ), 400
+
+        # Create the found-item report only after validation
         new_report = FoundItem(
-
             user_id=session["user_id"],
-
-            item_name=request.form.get("item_name", "").strip(),
-
-            category=request.form.get("category", "").strip(),
-
-            location=request.form.get("location", "").strip(),
-
-            description=request.form.get("description", "").strip(),
-
-            phone=request.form.get("phone", "").strip(),
-
-            email=request.form.get("email", "").strip()
-
+            item_name=item_name,
+            category=category,
+            location=location,
+            description=description,
+            phone=phone,
+            email=email
         )
-
 
         db.session.add(new_report)
-
         db.session.commit()
 
-
-        return render_template(
-
-            "report_found.html",
-
-            success=True
-
-        )
-
+        return render_template("report_found.html", success=True)
 
     return render_template("report_found.html")
 

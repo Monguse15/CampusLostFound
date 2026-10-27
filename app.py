@@ -86,46 +86,20 @@ class User(db.Model):
 
 @app.route("/")
 def home():
-
-    # Get recent lost reports
+    # Get the 18 most recent lost reports
     recent_lost = LostItem.query.order_by(
         LostItem.id.desc()
-    ).limit(3).all()
+    ).limit(18).all()
 
-    # Get recent found reports
+    # Get the 18 most recent found reports
     recent_found = FoundItem.query.order_by(
         FoundItem.id.desc()
-    ).limit(3).all()
-
-    # Combine both types
-    all_reports = []
-
-    for item in recent_lost:
-        all_reports.append({
-            "status": "Lost",
-            "item_name": item.item_name,
-            "location": item.location,
-            "id": item.id
-        })
-
-    for item in recent_found:
-        all_reports.append({
-            "status": "Found",
-            "item_name": item.item_name,
-            "location": item.location,
-            "id": item.id
-        })
-
-    # Sort and keep only 3 reports
-    all_reports = sorted(
-        all_reports,
-        key=lambda x: x["id"],
-        reverse=True
-    )[:3]
+    ).limit(18).all()
 
     return render_template(
         "home.html",
-        reports=all_reports
+        recent_lost=recent_lost,
+        recent_found=recent_found
     )
 # ============================================================
 # REGISTER

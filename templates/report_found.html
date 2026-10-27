@@ -1,51 +1,84 @@
-<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Report Found Item - CampusConnect</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
 
 <body>
 
-<div class="form-container">
+    <div class="form-container">
 
-    <h1>✅ Report Found Item</h1>
-    {% if success %}
-<p style="color:green; font-weight:bold;">
+        <h1>🎉 Report Found Item</h1>
+
+       
+{% if error %}
+<p style="color: red; font-weight: bold;">
+    {{ error }}
+</p>
+{% endif %}
+
+{% if success %}
+<p style="color: green; font-weight: bold;">
     ✅ Report submitted successfully!
 </p>
 {% endif %}
 
-    <form action="{{ url_for('report_found') }}" method="POST">
 
-        <label>Item Name</label>
-        <input type="text" name="item_name" required>
+        <form action="{{ url_for('report_found') }}" method="POST">
 
-        <label>Category</label>
-        <select name="category">
-             <option value="">Select Category</option>
-            <option value="Electronics">Electronics</option>
-    <option value="Bag">Bag</option>
-    <option value="Books">Books</option>
-    <option value="ID Card">ID Card</option>
-    <option value="Keys">Keys</option>
-    <option value="Other">Other</option>
-</select>
-        <label>Location Found</label>
-        <input type="text" name="location" required>
+            <label>Item Name</label>
+            <input type="text" name="item_name" required>
 
-        <label>Description</label>
-        <textarea rows="5" name="description"></textarea>
+            <label>Category</label>
+            <select name="category">
+                <option value="">Select Category</option>
+                <option>Electronics</option>
+                <option>Bag</option>
+                <option>Books</option>
+                <option>ID Card</option>
+                <option>Keys</option>
+                <option>Other</option>
+            </select>
 
-        <label>Phone Number</label>
-        <input type="tel" name="phone">
+            <label>Location Found</label>
+            <input type="text" name="location" required>
 
-        <label>Email Address</label>
-        <input type="email" name="email">
+            <label>Description</label>
+            <textarea rows="5" name="description"></textarea>
 
-        <button type="submit">Submit Report</button>
+            <label>Phone Number</label>
+            <input
+                type="tel"
+                name="phone"
+                placeholder="Enter 10-digit mobile number"
+                pattern="[0-9]{10}"
+                minlength="10"
+                maxlength="10"
+                inputmode="numeric"
+                title="Please enter exactly 10 digits."
+                required
+            >
 
-    </form>
+            <label>Email Address</label>
+            <input type="email" name="email">
 
-    <br>
+            <button type="submit">Submit Report</button>
 
-    <a href="/" class="home-btn">🏠 Back to Home</a>
+        </form>
 
-</div>
+        <br>
+
+        <a href="/" class="home-btn">🏠 Back to Home</a>
+
+    </div>
 
 </body>
+
+</html>

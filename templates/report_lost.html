@@ -1,15 +1,33 @@
-<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report Lost Item - CampusConnect</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
 
 <body>
 
 <div class="form-container">
 
     <h1>🚨 Report Lost Item</h1>
-    {% if success %}
-<p style="color:green; font-weight:bold;">
+
+    
+{% if error %}
+<p style="color: red; font-weight: bold;">
+    {{ error }}
+</p>
+{% endif %}
+
+{% if success %}
+<p style="color: green; font-weight: bold;">
     ✅ Report submitted successfully!
 </p>
 {% endif %}
+
 
     <form action="{{ url_for('report_lost') }}" method="POST">
 
@@ -17,8 +35,8 @@
         <input type="text" name="item_name" required>
 
         <label>Category</label>
-        <select name="category">
-           <option value="">Select Category</option>
+        <select name="category" required>
+            <option value="">Select Category</option>
             <option>Electronics</option>
             <option>Bag</option>
             <option>Books</option>
@@ -34,10 +52,23 @@
         <textarea rows="5" name="description"></textarea>
 
         <label>Phone Number</label>
-        <input type="tel" name="phone">
+        <input
+            type="tel"
+            name="phone"
+            id="phone"
+            placeholder="Enter 10-digit mobile number"
+            pattern="[0-9]{10}"
+            minlength="10"
+            maxlength="10"
+            inputmode="numeric"
+            title="Please enter exactly 10 digits."
+            oninput="this.setCustomValidity('')"
+            oninvalid="this.setCustomValidity('Please enter exactly 10 digits.')"
+            required
+        >
 
         <label>Email Address</label>
-        <input type="email" name="email">
+        <input type="email" name="email" required>
 
         <button type="submit">Submit Report</button>
 
@@ -50,3 +81,4 @@
 </div>
 
 </body>
+</html>

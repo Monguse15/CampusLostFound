@@ -1,8 +1,16 @@
 
 import os
-from flask import Flask, render_template, request, redirect, url_for, session
+from datetime import datetime
+
+from flask import (
+    Flask, render_template, request,
+    redirect, url_for, session
+)
+
 from flask_sqlalchemy import SQLAlchemy
-from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.security import (
+    generate_password_hash, check_password_hash
+)
 
 
 app = Flask(__name__)
@@ -17,34 +25,62 @@ app.secret_key = os.environ.get(
 )
 
 
+
 # ============================================================
 # DATABASE CONFIGURATION
 # ============================================================
 
-# Create the instance folder if it does not exist
-os.makedirs(app.instance_path, exist_ok=True)
+database_url = os.environ.get("DATABASE_URL")
 
-# Database file location
-database_path = os.path.join(
-    app.instance_path,
-    "campuslostfound.db"
-)
+if database_url:
+    # Use Neon PostgreSQL on Render
+    if database_url.startswith("postgres://"):
+        database_url = database_url.replace(
+            "postgres://",
+            "postgresql+psycopg://",
+            1
+        )
+    elif database_url.startswith("postgresql://"):
+        database_url = database_url.replace(
+            "postgresql://",
+            "postgresql+psycopg://",
+            1
+        )
 
-app.config["SQLALCHEMY_DATABASE_URI"] = (
-    "sqlite:///" + database_path.replace("\\", "/")
-)
+    app.config["SQLALCHEMY_DATABASE_URI"] = database_url
+
+else:
+    # Use SQLite locally in VS Code
+    os.makedirs(app.instance_path, exist_ok=True)
+
+    database_path = os.path.join(
+        app.instance_path,
+        "campuslostfound.db"
+    )
+
+    app.config["SQLALCHEMY_DATABASE_URI"] = (
+        "sqlite:///" + database_path.replace("\\", "/")
+    )
 
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db = SQLAlchemy(app)
 
 
+
+
 # ============================================================
 # DATABASE MODELS
 # ============================================================
 
-class LostItem(db.Model):
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    fullname = db.Column(db.String(100), nullable=False)
+    email = db.Column(db.String(100), unique=True, nullable=False)
+    password = db.Column(db.String(255), nullable=False)
 
+
+class LostItem(db.Model):
     id = db.Column(db.Integer, primary_key=True)
 
     user_id = db.Column(
@@ -62,7 +98,6 @@ class LostItem(db.Model):
 
 
 class FoundItem(db.Model):
-
     id = db.Column(db.Integer, primary_key=True)
 
     user_id = db.Column(
@@ -79,21 +114,91 @@ class FoundItem(db.Model):
     email = db.Column(db.String(100), nullable=False)
 
 
-class User(db.Model):
-
+class Notification(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    fullname = db.Column(db.String(100), nullable=False)
-    email = db.Column(db.String(100), unique=True, nullable=False)
-    password = db.Column(db.String(255), nullable=False)
+
+    recipient_id = db.Column(
+        db.Integer,
+        db.ForeignKey("user.id"),
+        nullable=False
+    )
+
+    sender_id = db.Column(
+        db.Integer,
+        db.ForeignKey("user.id"),
+        nullable=False
+    )
+
+    item_type = db.Column(db.String(10), nullable=False)
+    item_id = db.Column(db.Integer, nullable=False)
+
+    message = db.Column(db.String(255), nullable=False)
+
+    created_at = db.Column(
+        db.DateTime,
+        default=datetime.utcnow
+    )
+
+    is_read = db.Column(
+        db.Boolean,
+        default=False,
+        nullable=False
+    )
+
+    sender = db.relationship(
+        "User",
+        foreign_keys=[sender_id]
+    )
+
+    recipient = db.relationship(
+        "User",
+        foreign_keys=[recipient_id]
+    )
 
 
 # ============================================================
 # CREATE DATABASE TABLES
 # ============================================================
 
-# This runs when Gunicorn starts the application on Render.
 with app.app_context():
     db.create_all()
+
+
+# ============================================================
+# HELPER FUNCTION: GET ITEM
+# ============================================================
+
+def get_item(item_type, item_id):
+
+    if item_type == "lost":
+        return LostItem.query.get_or_404(item_id)
+
+    elif item_type == "found":
+        return FoundItem.query.get_or_404(item_id)
+
+    else:
+        return None
+
+
+# ============================================================
+# GLOBAL NOTIFICATION COUNT
+# ============================================================
+
+@app.context_processor
+def notification_count():
+
+    unread_count = 0
+
+    if "user_id" in session:
+
+        unread_count = Notification.query.filter_by(
+            recipient_id=session["user_id"],
+            is_read=False
+        ).count()
+
+    return {
+        "unread_notifications": unread_count
+    }
 
 
 # ============================================================
@@ -143,7 +248,9 @@ def register():
                 error="Password must contain at least 6 characters."
             )
 
-        existing_user = User.query.filter_by(email=email).first()
+        existing_user = User.query.filter_by(
+            email=email
+        ).first()
 
         if existing_user:
             return render_template(
@@ -151,12 +258,10 @@ def register():
                 error="Email already registered."
             )
 
-        hashed_password = generate_password_hash(password)
-
         new_user = User(
             fullname=fullname,
             email=email,
-            password=hashed_password
+            password=generate_password_hash(password)
         )
 
         db.session.add(new_user)
@@ -183,6 +288,7 @@ def login():
 
         if user and check_password_hash(user.password, password):
 
+            session.clear()
             session["user_id"] = user.id
             session["user_name"] = user.fullname
 
@@ -257,7 +363,7 @@ def report_lost():
         if not item_name:
             return render_template(
                 "report_lost.html",
-                error="Item name is required. Please enter an item name."
+                error="Item name is required."
             ), 400
 
         if not phone.isascii() or not phone.isdigit() or len(phone) != 10:
@@ -309,7 +415,7 @@ def report_found():
         if not item_name:
             return render_template(
                 "report_found.html",
-                error="Item name is required. Please enter an item name."
+                error="Item name is required."
             ), 400
 
         if not phone.isascii() or not phone.isdigit() or len(phone) != 10:
@@ -356,7 +462,6 @@ def search():
 
             search_term = f"%{query}%"
 
-            # Search lost items
             lost_items = LostItem.query.filter(
                 (LostItem.item_name.ilike(search_term)) |
                 (LostItem.category.ilike(search_term)) |
@@ -367,6 +472,8 @@ def search():
             for item in lost_items:
 
                 reports.append({
+                    "id": item.id,
+                    "type": "lost",
                     "status": "Lost",
                     "item_name": item.item_name,
                     "category": item.category,
@@ -374,7 +481,6 @@ def search():
                     "description": item.description
                 })
 
-            # Search found items
             found_items = FoundItem.query.filter(
                 (FoundItem.item_name.ilike(search_term)) |
                 (FoundItem.category.ilike(search_term)) |
@@ -385,6 +491,8 @@ def search():
             for item in found_items:
 
                 reports.append({
+                    "id": item.id,
+                    "type": "found",
                     "status": "Found",
                     "item_name": item.item_name,
                     "category": item.category,
@@ -395,6 +503,155 @@ def search():
     return render_template(
         "search.html",
         reports=reports
+    )
+
+
+# ============================================================
+# INDIVIDUAL ITEM DETAILS
+# ============================================================
+
+@app.route("/item/<item_type>/<int:item_id>")
+def item_details(item_type, item_id):
+
+    if "user_id" not in session:
+        return redirect(url_for("login"))
+
+    item = get_item(item_type, item_id)
+
+    if item is None:
+        return "Invalid item type", 404
+
+    already_responded = False
+
+    if item.user_id != session["user_id"]:
+
+        already_responded = Notification.query.filter_by(
+            recipient_id=item.user_id,
+            sender_id=session["user_id"],
+            item_type=item_type,
+            item_id=item_id
+        ).first() is not None
+
+    return render_template(
+        "item_details.html",
+        item=item,
+        item_type=item_type,
+        already_responded=already_responded
+    )
+
+
+# ============================================================
+# RESPOND TO AN ITEM
+# ============================================================
+
+@app.route(
+    "/respond/<item_type>/<int:item_id>",
+    methods=["POST"]
+)
+def respond_to_item(item_type, item_id):
+
+    if "user_id" not in session:
+        return redirect(url_for("login"))
+
+    item = get_item(item_type, item_id)
+
+    if item is None:
+        return "Invalid item type", 404
+
+    sender_id = session["user_id"]
+
+    if item.user_id == sender_id:
+        return "You cannot respond to your own report.", 403
+
+    existing_notification = Notification.query.filter_by(
+        recipient_id=item.user_id,
+        sender_id=sender_id,
+        item_type=item_type,
+        item_id=item_id
+    ).first()
+
+    if existing_notification:
+        return redirect(
+            url_for(
+                "item_details",
+                item_type=item_type,
+                item_id=item_id
+            )
+        )
+
+    if item_type == "lost":
+        message = "Someone says they found your lost item!"
+    else:
+        message = "Someone thinks this found item belongs to them!"
+
+    notification = Notification(
+        recipient_id=item.user_id,
+        sender_id=sender_id,
+        item_type=item_type,
+        item_id=item_id,
+        message=message
+    )
+
+    db.session.add(notification)
+    db.session.commit()
+
+    return redirect(
+        url_for(
+            "item_details",
+            item_type=item_type,
+            item_id=item_id
+        )
+    )
+
+
+# ============================================================
+# NOTIFICATIONS PAGE
+# ============================================================
+
+@app.route("/notifications")
+def notifications():
+
+    if "user_id" not in session:
+        return redirect(url_for("login"))
+
+    user_notifications = Notification.query.filter_by(
+        recipient_id=session["user_id"]
+    ).order_by(
+        Notification.created_at.desc()
+    ).all()
+
+    return render_template(
+        "notifications.html",
+        notifications=user_notifications
+    )
+
+
+# ============================================================
+# OPEN NOTIFICATION
+# ============================================================
+
+@app.route("/notification/<int:notification_id>")
+def open_notification(notification_id):
+
+    if "user_id" not in session:
+        return redirect(url_for("login"))
+
+    notification = Notification.query.get_or_404(
+        notification_id
+    )
+
+    if notification.recipient_id != session["user_id"]:
+        return "Unauthorized", 403
+
+    notification.is_read = True
+    db.session.commit()
+
+    return redirect(
+        url_for(
+            "item_details",
+            item_type=notification.item_type,
+            item_id=notification.item_id
+        )
     )
 
 
@@ -483,6 +740,11 @@ def delete_lost(id):
     if item.user_id != session["user_id"]:
         return "Unauthorized", 403
 
+    Notification.query.filter_by(
+        item_type="lost",
+        item_id=item.id
+    ).delete()
+
     db.session.delete(item)
     db.session.commit()
 
@@ -504,6 +766,11 @@ def delete_found(id):
     if item.user_id != session["user_id"]:
         return "Unauthorized", 403
 
+    Notification.query.filter_by(
+        item_type="found",
+        item_id=item.id
+    ).delete()
+
     db.session.delete(item)
     db.session.commit()
 
@@ -516,7 +783,6 @@ def delete_found(id):
 
 @app.route("/test")
 def test():
-
     return str(session)
 
 
@@ -525,5 +791,4 @@ def test():
 # ============================================================
 
 if __name__ == "__main__":
-
     app.run(debug=True)

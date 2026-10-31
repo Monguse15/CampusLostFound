@@ -15,34 +15,80 @@
 
     <!-- Navigation Bar -->
     <nav class="navbar">
+
         <h2 class="logo">🎒 CampusConnect</h2>
 
         <div class="nav-links">
+
             <a href="{{ url_for('home') }}">🏠 Home</a>
-            <a href="{{ url_for('report_lost') }}">📦 Report Lost</a>
-            <a href="{{ url_for('report_found') }}">🔎 Report Found</a>
-            <a href="{{ url_for('search') }}">🔍 Search</a>
+
+            <a href="{{ url_for('report_lost') }}">
+                📦 Report Lost
+            </a>
+
+            <a href="{{ url_for('report_found') }}">
+                🔎 Report Found
+            </a>
+
+            <a href="{{ url_for('search') }}">
+                🔍 Search
+            </a>
 
             {% if session.get('user_id') %}
+
                 <a href="{{ url_for('dashboard') }}">
                     👤 {{ session.get('user_name') }}
                 </a>
-                <a href="{{ url_for('logout') }}">🚪 Logout</a>
+
+                <!-- Notifications -->
+                <a href="{{ url_for('notifications') }}"
+                   class="notification-link">
+
+                    🔔 Notifications
+
+                    {% if unread_notifications > 0 %}
+                        <span class="notification-count">
+                            {{ unread_notifications }}
+                        </span>
+                    {% endif %}
+
+                </a>
+
+                <a href="{{ url_for('logout') }}">
+                    🚪 Logout
+                </a>
+
             {% else %}
-                <a href="{{ url_for('login') }}">🔑 Login</a>
-                <a href="{{ url_for('register') }}">📝 Register</a>
+
+                <a href="{{ url_for('login') }}">
+                    🔑 Login
+                </a>
+
+                <a href="{{ url_for('register') }}">
+                    📝 Register
+                </a>
+
             {% endif %}
+
         </div>
+
     </nav>
 
+
+    <!-- Main Content -->
     <main class="recent-section">
+
 
         <!-- LOST ITEMS SECTION -->
         <section class="home-report-section">
 
             <div class="section-header">
+
                 <div>
-                    <h2 class="section-heading">🔴 Lost Items</h2>
+                    <h2 class="section-heading">
+                        🔴 Lost Items
+                    </h2>
+
                     <p class="section-description">
                         Items reported missing on campus
                     </p>
@@ -52,11 +98,14 @@
                    href="{{ url_for('report_lost') }}">
                     + Report Lost Item
                 </a>
+
             </div>
+
 
             <div class="reports-container">
 
                 {% for item in recent_lost %}
+
                     <article class="report-card">
 
                         <span class="status lost">
@@ -74,22 +123,31 @@
                         </p>
 
                     </article>
+
                 {% else %}
+
                     <p class="empty-message">
                         No lost items reported yet.
                     </p>
+
                 {% endfor %}
 
             </div>
+
         </section>
+
 
 
         <!-- FOUND ITEMS SECTION -->
         <section class="home-report-section">
 
             <div class="section-header">
+
                 <div>
-                    <h2 class="section-heading">🟢 Found Items</h2>
+                    <h2 class="section-heading">
+                        🟢 Found Items
+                    </h2>
+
                     <p class="section-description">
                         Items found on campus
                     </p>
@@ -99,11 +157,14 @@
                    href="{{ url_for('report_found') }}">
                     + Report Found Item
                 </a>
+
             </div>
+
 
             <div class="reports-container">
 
                 {% for item in recent_found %}
+
                     <article class="report-card">
 
                         <span class="status found">
@@ -121,17 +182,23 @@
                         </p>
 
                     </article>
+
                 {% else %}
+
                     <p class="empty-message">
                         No found items reported yet.
                     </p>
+
                 {% endfor %}
 
             </div>
+
         </section>
 
     </main>
 
+
+    <!-- Footer -->
     <footer class="home-footer">
         CampusConnect — Helping lost items find their owners.
     </footer>

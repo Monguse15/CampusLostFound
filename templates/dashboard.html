@@ -1,4 +1,4 @@
-```html
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -119,6 +119,20 @@
             text-decoration: none;
         }
 
+        .notification-link {
+            position: relative;
+        }
+
+        .notification-count {
+            display: inline-block;
+            background: #dc2626;
+            color: white;
+            border-radius: 50%;
+            padding: 2px 7px;
+            font-size: 12px;
+            margin-left: 4px;
+        }
+
         @media (max-width: 480px) {
             .dashboard-container {
                 width: 94%;
@@ -140,12 +154,28 @@
             <a href="{{ url_for('search') }}">🔍 Search</a>
 
             {% if session.get('user_id') %}
+
+                <a href="{{ url_for('notifications') }}"
+                   class="notification-link">
+                    🔔 Notifications
+
+                    {% if unread_notifications > 0 %}
+                        <span class="notification-count">
+                            {{ unread_notifications }}
+                        </span>
+                    {% endif %}
+                </a>
+
                 <a href="{{ url_for('dashboard') }}">
                     👤 {{ session.get('user_name', 'My Account') }}
                 </a>
+
                 <a href="{{ url_for('logout') }}">🚪 Logout</a>
+
             {% else %}
+
                 <a href="{{ url_for('login') }}">🔑 Login</a>
+
             {% endif %}
         </div>
     </nav>
@@ -157,17 +187,29 @@
             <h1>
                 👋 Welcome, {{ session.get('user_name', 'User') }}!
             </h1>
+
             <p>Manage your lost and found item reports here.</p>
+
+            <a href="{{ url_for('notifications') }}">
+                🔔 View Your Notifications
+
+                {% if unread_notifications > 0 %}
+                    ({{ unread_notifications }} unread)
+                {% endif %}
+            </a>
         </div>
 
         <!-- My Lost Reports -->
         <section class="dashboard-section">
+
             <h2>📢 My Lost Reports</h2>
 
             {% if lost_items %}
+
                 <div class="reports-grid">
 
                     {% for item in lost_items %}
+
                         <article class="report-card">
 
                             <span class="status lost">Lost</span>
@@ -218,25 +260,34 @@
                                 </form>
 
                             </div>
+
                         </article>
+
                     {% endfor %}
 
                 </div>
+
             {% else %}
+
                 <p class="empty-message">
                     You have not reported any lost items yet.
                 </p>
+
             {% endif %}
+
         </section>
 
         <!-- My Found Reports -->
         <section class="dashboard-section">
+
             <h2>📦 My Found Reports</h2>
 
             {% if found_items %}
+
                 <div class="reports-grid">
 
                     {% for item in found_items %}
+
                         <article class="report-card">
 
                             <span class="status found">Found</span>
@@ -287,19 +338,26 @@
                                 </form>
 
                             </div>
+
                         </article>
+
                     {% endfor %}
 
                 </div>
+
             {% else %}
+
                 <p class="empty-message">
                     You have not reported any found items yet.
                 </p>
+
             {% endif %}
+
         </section>
 
         <!-- Dashboard Navigation -->
         <div class="dashboard-links">
+
             <a href="{{ url_for('report_lost') }}">
                 ➕ Report Lost Item
             </a>
@@ -311,10 +369,14 @@
             <a href="{{ url_for('search') }}">
                 🔍 Search Items
             </a>
+
+            <a href="{{ url_for('notifications') }}">
+                🔔 My Notifications
+            </a>
+
         </div>
 
     </main>
 
 </body>
 </html>
-```

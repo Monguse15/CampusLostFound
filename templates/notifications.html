@@ -1,4 +1,4 @@
-```html
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -58,7 +58,7 @@
         }
 
         .notification-card a:hover {
-            background: #3730A3;
+            background: #3730A0;
         }
 
         .empty {
@@ -82,4 +82,59 @@
 
     <div class="container">
 
-       
+        <h1>🔔 Notifications</h1>
+
+        {% if notifications %}
+
+            {% for notification in notifications %}
+
+                <div class="notification-card {% if notification.is_read %}read{% endif %}">
+
+                    <h3>📢 New Response to Your Report</h3>
+
+                    <p>
+                        <strong>Message:</strong>
+                        {{ notification.message }}
+                    </p>
+
+                    <p>
+                        <strong>From:</strong>
+                        {{ notification.sender.fullname if notification.sender else 'CampusConnect User' }}
+                    </p>
+
+                    <p>
+                        <strong>Date:</strong>
+                        {{ notification.created_at.strftime('%d-%m-%Y %I:%M %p') if notification.created_at else '' }}
+                    </p>
+
+                    <a href="{{ url_for('open_notification', notification_id=notification.id) }}">
+                        View Item →
+                    </a>
+
+                    {% if notification.is_read %}
+                        <p><small>Already viewed</small></p>
+                    {% else %}
+                        <p><small>New notification</small></p>
+                    {% endif %}
+
+                </div>
+
+            {% endfor %}
+
+        {% else %}
+
+            <div class="empty">
+                <h3>No Notifications Yet</h3>
+                <p>When someone responds to your lost or found report, their notification will appear here.</p>
+            </div>
+
+        {% endif %}
+
+        <a href="{{ url_for('dashboard') }}" class="back">
+            ← Back to Dashboard
+        </a>
+
+    </div>
+
+</body>
+</html>

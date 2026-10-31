@@ -235,13 +235,12 @@ def dashboard():
     # Get only this user's reports
 
     lost_items = LostItem.query.filter_by(
-        user_id=user_id
-    ).all()
-
+    user_id=user_id
+).order_by(LostItem.id.desc()).all()
 
     found_items = FoundItem.query.filter_by(
-        user_id=user_id
-    ).all()
+    user_id=user_id
+).order_by(FoundItem.id.desc()).all()
 
 
     return render_template(

@@ -41,7 +41,9 @@
         <h1>🔍 Search Items</h1>
 
         <form action="{{ url_for('search') }}" method="POST">
-            <label for="query">Search by item name, category, location, or description</label>
+            <label for="query">
+                Search by item name, category, location, or description
+            </label>
 
             <input
                 type="text"
@@ -82,4 +84,29 @@
 
                     {% if report.description %}
                         <p>
-                            <strong>Description
+                            <strong>Description:</strong>
+                            {{ report.description }}
+                        </p>
+                    {% endif %}
+
+                </div>
+
+            {% endfor %}
+
+        {% elif request.method == 'POST' %}
+
+            <div class="report-card">
+                <h3>No Items Found</h3>
+                <p>
+                    Sorry, no matching lost or found items were found.
+                    Try searching with another keyword.
+                </p>
+            </div>
+
+        {% endif %}
+
+    </div>
+
+</body>
+</html>
+```

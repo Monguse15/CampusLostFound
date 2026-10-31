@@ -2,17 +2,14 @@
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Edit {{ report_type }} Report</title>
+    <title>Edit {{ report_type }} Report - CampusConnect</title>
 
     <link rel="stylesheet"
           href="{{ url_for('static', filename='style.css') }}">
-
 </head>
-
 
 <body>
 
@@ -20,11 +17,9 @@
 
     <h1>✏️ Edit {{ report_type }} Report</h1>
 
-
     <form method="POST">
 
         <!-- Item Name -->
-
         <label>Item Name</label>
 
         <input
@@ -34,9 +29,7 @@
             required
         >
 
-
         <!-- Category -->
-
         <label>Category</label>
 
         <select name="category" required>
@@ -75,9 +68,7 @@
 
         </select>
 
-
         <!-- Location -->
-
         <label>Location</label>
 
         <input
@@ -87,9 +78,7 @@
             required
         >
 
-
         <!-- Description -->
-
         <label>Description</label>
 
         <textarea
@@ -98,50 +87,41 @@
             required
         >{{ item.description }}</textarea>
 
-
         <!-- Phone -->
-
         <label>Phone Number</label>
 
         <input
             type="tel"
             name="phone"
             value="{{ item.phone }}"
+            required
         >
 
-
         <!-- Email -->
-
         <label>Email Address</label>
 
         <input
             type="email"
             name="email"
             value="{{ item.email }}"
+            required
         >
 
-
         <!-- Save -->
-
         <button type="submit">
             💾 Save Changes
         </button>
 
     </form>
 
-
     <br>
 
-
     <!-- Cancel -->
-
-    <a href="{{ url_for('dashboard') }}"
-       class="home-btn">
+    <a href="{{ url_for('dashboard') }}" class="home-btn">
         ⬅️ Cancel
     </a>
 
 </div>
 
 </body>
-
 </html>

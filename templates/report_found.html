@@ -1,4 +1,4 @@
-html
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -17,41 +17,54 @@ html
 
         <h1>🎉 Report Found Item</h1>
 
-       
-{% if error %}
-<p style="color: red; font-weight: bold;">
-    {{ error }}
-</p>
-{% endif %}
+        {% if error %}
+        <p style="color: red; font-weight: bold;">
+            {{ error }}
+        </p>
+        {% endif %}
 
-{% if success %}
-<p style="color: green; font-weight: bold;">
-    ✅ Report submitted successfully!
-</p>
-{% endif %}
-
+        {% if success %}
+        <p style="color: #00c896; font-weight: bold;">
+            ✅ Report submitted successfully!
+        </p>
+        {% endif %}
 
         <form action="{{ url_for('report_found') }}" method="POST">
 
             <label>Item Name</label>
-            <input type="text" name="item_name" required>
+            <input
+                type="text"
+                name="item_name"
+                placeholder="Enter item name"
+                required
+            >
 
             <label>Category</label>
-            <select name="category">
+            <select name="category" required>
                 <option value="">Select Category</option>
-                <option>Electronics</option>
-                <option>Bag</option>
-                <option>Books</option>
-                <option>ID Card</option>
-                <option>Keys</option>
-                <option>Other</option>
+                <option value="Electronics">Electronics</option>
+                <option value="Bag">Bag</option>
+                <option value="Books">Books</option>
+                <option value="ID Card">ID Card</option>
+                <option value="Keys">Keys</option>
+                <option value="Other">Other</option>
             </select>
 
             <label>Location Found</label>
-            <input type="text" name="location" required>
+            <input
+                type="text"
+                name="location"
+                placeholder="Where did you find the item?"
+                required
+            >
 
             <label>Description</label>
-            <textarea rows="5" name="description"></textarea>
+            <textarea
+                rows="5"
+                name="description"
+                placeholder="Describe the found item..."
+                required
+            ></textarea>
 
             <label>Phone Number</label>
             <input
@@ -67,7 +80,12 @@ html
             >
 
             <label>Email Address</label>
-            <input type="email" name="email">
+            <input
+                type="email"
+                name="email"
+                placeholder="Enter your email address"
+                required
+            >
 
             <button type="submit">Submit Report</button>
 

@@ -1,4 +1,4 @@
-```html
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -11,15 +11,6 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 
     <style>
-        .report-card {
-            cursor: pointer;
-            transition: transform 0.2s ease;
-        }
-
-        .report-card:hover {
-            transform: translateY(-3px);
-        }
-
         .details-link {
             display: inline-block;
             margin-top: 12px;
@@ -31,7 +22,7 @@
         }
 
         .details-link:hover {
-            background: #3730A3;
+            background: #3730A0;
         }
     </style>
 </head>
@@ -74,7 +65,6 @@
         <h1>🔍 Search Items</h1>
 
         <form action="{{ url_for('search') }}" method="POST">
-
             <label for="query">
                 Search by item name, category, location, or description
             </label>
@@ -89,10 +79,64 @@
             >
 
             <button type="submit">Search</button>
-
         </form>
 
         <!-- Search Results -->
         {% if reports %}
 
-            <h2>
+            <h2>Search Results</h2>
+
+            {% for report in reports %}
+
+                <div class="report-card">
+
+                    <span class="status {{ 'lost' if report.status == 'Lost' else 'found' }}">
+                        {{ report.status }}
+                    </span>
+
+                    <h3>{{ report.item_name }}</h3>
+
+                    <p>
+                        <strong>Category:</strong>
+                        {{ report.category }}
+                    </p>
+
+                    <p>
+                        <strong>Location:</strong>
+                        {{ report.location }}
+                    </p>
+
+                    {% if report.description %}
+                        <p>
+                            <strong>Description:</strong>
+                            {{ report.description }}
+                        </p>
+                    {% endif %}
+
+                    <!-- View Details Button -->
+                    <a
+                        href="{{ url_for('item_details', item_type=report.type, item_id=report.id) }}"
+                        class="details-link">
+                        View Details →
+                    </a>
+
+                </div>
+
+            {% endfor %}
+
+        {% elif request.method == 'POST' %}
+
+            <div class="report-card">
+                <h3>No Items Found</h3>
+                <p>
+                    Sorry, no matching lost or found items were found.
+                    Try searching with another keyword.
+                </p>
+            </div>
+
+        {% endif %}
+
+    </div>
+
+</body>
+</html>

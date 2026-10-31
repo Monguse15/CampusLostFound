@@ -1,0 +1,162 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Item Details - CampusConnect</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+    <style>
+        body {
+            background: #0B1F3A;
+            color: white;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .details-container {
+            max-width: 650px;
+            margin: 50px auto;
+            padding: 30px;
+            background: white;
+            color: #0B1F3A;
+            border-radius: 14px;
+        }
+
+        .details-container h1 {
+            text-align: center;
+        }
+
+        .details-container p {
+            margin: 15px 0;
+        }
+
+        .response-btn {
+            display: block;
+            width: 100%;
+            padding: 13px;
+            margin-top: 20px;
+            background: #4F46E5;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .response-btn:hover {
+            background: #3730A3;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #4F46E5;
+            text-decoration: none;
+        }
+
+        .owner-message {
+            background: #E5E7EB;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="details-container">
+
+        <h1>📦 Item Details</h1>
+
+        <h2>{{ item.item_name }}</h2>
+
+        <p>
+            <strong>Status:</strong>
+            {{ item_type|capitalize }}
+        </p>
+
+        <p>
+            <strong>Category:</strong>
+            {{ item.category }}
+        </p>
+
+        <p>
+            <strong>Location:</strong>
+            {{ item.location }}
+        </p>
+
+        <p>
+            <strong>Description:</strong>
+            {{ item.description or 'No description provided.' }}
+        </p>
+
+        <hr>
+
+        <h3>Report Owner's Contact Details</h3>
+
+        <p>
+            <strong>Email:</strong>
+            {{ item.email }}
+        </p>
+
+        <p>
+            <strong>Phone:</strong>
+            {{ item.phone }}
+        </p>
+
+        {% if item.user_id == session.get('user_id') %}
+
+            <div class="owner-message">
+                This is your own report. You cannot respond to it.
+            </div>
+
+        {% elif already_responded %}
+
+            <div class="owner-message">
+                You have already responded to this report.
+            </div>
+
+        {% else %}
+
+            <form
+                action="{{ url_for(
+                    'respond_to_item',
+                    item_type=item_type,
+                    item_id=item.id
+                ) }}"
+                method="POST"
+            >
+
+                {% if item_type == 'lost' %}
+
+                    <button type="submit" class="response-btn">
+                        I found this!
+                    </button>
+
+                {% else %}
+
+                    <button type="submit" class="response-btn">
+                        That's mine!
+                    </button>
+
+                {% endif %}
+
+            </form>
+
+        {% endif %}
+
+        <a href="{{ url_for('search') }}" class="back-link">
+            ← Back to Search
+        </a>
+
+    </div>
+
+</body>
+</html>
+```

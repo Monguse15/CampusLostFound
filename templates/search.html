@@ -9,6 +9,31 @@
     <title>Search Items - CampusConnect</title>
 
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <style>
+        .report-card {
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .report-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .details-link {
+            display: inline-block;
+            margin-top: 12px;
+            padding: 10px 18px;
+            background: #4F46E5;
+            color: white;
+            text-decoration: none;
+            border-radius: 7px;
+        }
+
+        .details-link:hover {
+            background: #3730A3;
+        }
+    </style>
 </head>
 
 <body>
@@ -27,6 +52,14 @@
                 <a href="{{ url_for('dashboard') }}">
                     👤 {{ session.get('user_name', 'My Account') }}
                 </a>
+
+                <a href="{{ url_for('notifications') }}">
+                    🔔 Notifications
+                    {% if unread_notifications > 0 %}
+                        ({{ unread_notifications }})
+                    {% endif %}
+                </a>
+
                 <a href="{{ url_for('logout') }}">Logout</a>
             {% else %}
                 <a href="{{ url_for('login') }}">Login</a>
@@ -41,6 +74,7 @@
         <h1>🔍 Search Items</h1>
 
         <form action="{{ url_for('search') }}" method="POST">
+
             <label for="query">
                 Search by item name, category, location, or description
             </label>
@@ -55,58 +89,10 @@
             >
 
             <button type="submit">Search</button>
+
         </form>
 
         <!-- Search Results -->
         {% if reports %}
 
-            <h2>Search Results</h2>
-
-            {% for report in reports %}
-
-                <div class="report-card">
-
-                    <span class="status {{ 'lost' if report.status == 'Lost' else 'found' }}">
-                        {{ report.status }}
-                    </span>
-
-                    <h3>{{ report.item_name }}</h3>
-
-                    <p>
-                        <strong>Category:</strong>
-                        {{ report.category }}
-                    </p>
-
-                    <p>
-                        <strong>Location:</strong>
-                        {{ report.location }}
-                    </p>
-
-                    {% if report.description %}
-                        <p>
-                            <strong>Description:</strong>
-                            {{ report.description }}
-                        </p>
-                    {% endif %}
-
-                </div>
-
-            {% endfor %}
-
-        {% elif request.method == 'POST' %}
-
-            <div class="report-card">
-                <h3>No Items Found</h3>
-                <p>
-                    Sorry, no matching lost or found items were found.
-                    Try searching with another keyword.
-                </p>
-            </div>
-
-        {% endif %}
-
-    </div>
-
-</body>
-</html>
-```
+            <h2>

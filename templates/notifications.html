@@ -1,0 +1,85 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notifications - CampusConnect</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #0B1F3A;
+            color: white;
+            margin: 0;
+        }
+
+        .container {
+            max-width: 850px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .notification-card {
+            background: white;
+            color: #0B1F3A;
+            padding: 22px;
+            margin-bottom: 18px;
+            border-radius: 12px;
+            border-left: 5px solid #4F46E5;
+        }
+
+        .notification-card.read {
+            border-left-color: #9CA3AF;
+            opacity: 0.85;
+        }
+
+        .notification-card p {
+            margin: 8px 0;
+        }
+
+        .notification-card a {
+            display: inline-block;
+            margin-top: 12px;
+            background: #4F46E5;
+            color: white;
+            padding: 9px 16px;
+            border-radius: 7px;
+            text-decoration: none;
+        }
+
+        .notification-card a:hover {
+            background: #3730A3;
+        }
+
+        .empty {
+            text-align: center;
+            background: white;
+            color: #0B1F3A;
+            padding: 30px;
+            border-radius: 12px;
+        }
+
+        .back {
+            display: inline-block;
+            margin-top: 25px;
+            color: white;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+       
